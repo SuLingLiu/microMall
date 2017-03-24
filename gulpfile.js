@@ -96,10 +96,10 @@ gulp.task('build', ['clean'], function(){
 });
 
 
-gulp.task('serve', ['styles','css','plugin', 'scripts', 'images'], function() {
+gulp.task('serve11', ['styles','css','plugin', 'scripts', 'images'], function() {
     browserSync.init({
         server: {
-            server: "./dest"
+            server: "./dist"
         },
         startPath: 'index.html'
     });
@@ -109,19 +109,19 @@ gulp.task('serve', ['styles','css','plugin', 'scripts', 'images'], function() {
     gulp.watch( src + 'js/**', ['scripts']);
     gulp.watch( src + 'plugin/**', ['plugin']);
     gulp.watch( src + 'images/**/*.*', ['images']); 
-    gulp.watch('dest/*.html').on('change', reload)
+    gulp.watch('dist/*.html').on('change', reload)
 });
 
 
 
-gulp.task('serve11', ['sass'], function() {
+gulp.task('serve', ['styles'], function() {
 
     browserSync.init({
-        server: "./src"
+        server: "./dist"
     });
 
-    gulp.watch("src/scss/*.scss", ['sass']);
-    gulp.watch("src/*.html").on('change', reload);
+    gulp.watch( src +'css/**/*.scss', ['styles']);
+    gulp.watch("dist/*.html").on('change', reload);
 });
 
 // scss编译后的css将注入到浏览器里实现更新
