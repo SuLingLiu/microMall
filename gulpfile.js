@@ -95,9 +95,13 @@ gulp.task('build', ['clean'], function(){
    gulp.start('html','styles','css','plugin', 'scripts', 'images');
 });
 
-gulp.task('serve', ['html','styles','css','plugin', 'scripts', 'images'], function() {
+
+gulp.task('serve', ['styles','css','plugin', 'scripts', 'images'], function() {
     browserSync.init({
-        server: "./dist"
+        server: {
+            server: "./dest"
+        },
+        startPath: 'index.html'
     });
     
     gulp.watch( src +'css/**/*.scss', ['styles']);
@@ -105,7 +109,29 @@ gulp.task('serve', ['html','styles','css','plugin', 'scripts', 'images'], functi
     gulp.watch( src + 'js/**', ['scripts']);
     gulp.watch( src + 'plugin/**', ['plugin']);
     gulp.watch( src + 'images/**/*.*', ['images']); 
-    gulp.watch( src + '*.html').on('change', reload)
+    gulp.watch('dest/*.html').on('change', reload)
+});
+
+
+
+gulp.task('serve11', ['sass'], function() {
+
+    browserSync.init({
+        server: "./src"
+    });
+
+    gulp.watch("src/scss/*.scss", ['sass']);
+    gulp.watch("src/*.html").on('change', reload);
+});
+
+// scss编译后的css将注入到浏览器里实现更新
+gulp.task('sass', function() {
+    return gulp.src("app/scss/*.scss")
+        .pipe(sass())
+        .pipe(gulp.dest("app/css"))
+        .pipe(reload({stream: true}));
 });
 
 gulp.task('default', ['serve']);
+
+
